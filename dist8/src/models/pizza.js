@@ -35,7 +35,9 @@ __decorate([
     __metadata("design:type", String)
 ], Pizza.prototype, "toppingA", void 0);
 Pizza = __decorate([
-    repository_1.model()
+    repository_1.model({
+        name: "pizza"
+    })
 ], Pizza);
 exports.Pizza = Pizza;
 //# sourceMappingURL=pizza.js.map
