@@ -22,7 +22,6 @@ exports.up = function (db, callback) {
       primaryKey: true, 
       autoIncrement: true 
     },
-    //full_name: 'string'  // shorthand notation
     full_name: {
       type: 'string',
       length: 255
@@ -34,6 +33,9 @@ exports.up = function (db, callback) {
       type: 'string'
     },
     lastname: {
+      type: 'string'
+    },
+    password: {
       type: 'string'
     }
   }, callback);
