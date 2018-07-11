@@ -38,6 +38,8 @@ class Day_6Application extends boot_1.BootMixin(repository_1.RepositoryMixin(res
             database: "day_6"
         });
         this.dataSource(dataSourceConfig);
+        var databaseHost = process.env.DATABASE_HOST;
+        console.log(databaseHost);
     }
     async start() {
         await super.start();

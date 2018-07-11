@@ -31,7 +31,9 @@
     "test:dev": "lb-mocha --allow-console-logs DIST/test/**/*.js && npm run posttest",
     "prestart": "npm run build:current",
     "start": "node .",
-    "prepublishOnly": "npm run test"
+    "prepublishOnly": "npm run test",
+
+    "miki": "DATABASE_HOST=something VARIABLE_SOMETHING=lol npm start"
   },
   "repository": {
     "type": "git"

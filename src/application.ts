@@ -50,6 +50,9 @@ export class Day_6Application extends BootMixin(
       database: "day_6"
     });
     this.dataSource(dataSourceConfig);
+
+    var databaseHost = process.env.DATABASE_HOST;
+    console.log(databaseHost);
   }
 
   async start() {

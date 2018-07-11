@@ -1,4 +1,6 @@
 {
+    "defaultEnv": {"ENV": "NODE_ENV"},
+
    "dev": {
        "driver": "mysql",
        "host": "localhost",
@@ -6,5 +8,14 @@
        "user": "root",
        "password": "root",
        "database": "day_6"
-   }
+   },
+
+   "miki": {
+        "driver": "mysql",
+        "host": "localhost",
+        "port": "3306",
+        "user": {"ENV": "PRODUCTION_USERNAME"},
+        "password": "root",
+        "database": "day_6"
+    }
 }

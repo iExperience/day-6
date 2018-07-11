@@ -61,21 +61,23 @@ let LoginController = class LoginController {
         }
         // Check that email and password are valid
         let userExists = !!(await this.userRepo.count({
-            and: [{ email: user.email }, { password: user.password }],
+            email: user.email,
         }));
         if (!userExists) {
             throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
         }
         let foundUser = (await this.userRepo.findOne({
             where: {
-                and: [{ email: user.email }, { password: user.password }],
+                email: user.email,
             },
         }));
+        if (!await bcrypt.compare(user.password, foundUser.password)) {
+            throw new rest_1.HttpErrors.Unauthorized("Sorry...");
+        }
         let jwt = jsonwebtoken_1.sign({
             user: {
                 id: foundUser.id,
-                email: foundUser.email,
-                roles: ['admin', 'customer'],
+                email: foundUser.email
             },
         }, 'shh', {
             issuer: 'auth.ix.com',
