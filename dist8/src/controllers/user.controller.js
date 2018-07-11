@@ -17,19 +17,42 @@ const rest_1 = require("@loopback/rest");
 const user_repository_1 = require("../repositories/user.repository");
 const user_1 = require("../models/user");
 const jsonwebtoken_1 = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 let LoginController = class LoginController {
     constructor(userRepo) {
         this.userRepo = userRepo;
     }
     verifyToken(jwt) {
         try {
-            let payload = jsonwebtoken_1.verify(jwt, "shh");
+            let payload = jsonwebtoken_1.verify(jwt, 'shh');
+            //payload.user.id;
             return payload;
         }
         catch (err) {
-            throw new rest_1.HttpErrors.Unauthorized("Invalid token");
+            throw new rest_1.HttpErrors.Unauthorized('Invalid token');
         }
         // The user is authenticated and we can process...
+    }
+    async registerUser(user) {
+        let userToCreate = new user_1.User();
+        userToCreate.firstname = user.firstname;
+        userToCreate.lastname = 'Some last name';
+        userToCreate.email = user.email;
+        //userToCreate.password = user.password;
+        userToCreate.password = await bcrypt.hash(user.password, 10);
+        let createdUser = await this.userRepo.create(userToCreate);
+        let jwt = jsonwebtoken_1.sign({
+            user: {
+                id: createdUser.id,
+                email: createdUser.email
+            },
+        }, 'shh', {
+            issuer: 'auth.ix.com',
+            audience: 'ix.com',
+        });
+        return {
+            token: jwt,
+        };
     }
     async loginUser(user) {
         // Check that email and password are both supplied
@@ -38,43 +61,45 @@ let LoginController = class LoginController {
         }
         // Check that email and password are valid
         let userExists = !!(await this.userRepo.count({
-            and: [
-                { email: user.email },
-                { password: user.password },
-            ],
+            and: [{ email: user.email }, { password: user.password }],
         }));
         if (!userExists) {
             throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
         }
-        let foundUser = await this.userRepo.findOne({
+        let foundUser = (await this.userRepo.findOne({
             where: {
-                and: [
-                    { email: user.email },
-                    { password: user.password }
-                ],
+                and: [{ email: user.email }, { password: user.password }],
             },
-        });
+        }));
         let jwt = jsonwebtoken_1.sign({
             user: {
                 id: foundUser.id,
-                email: foundUser.email
-            }
-        }, "shh", {
-            issuer: "auth.ix.com",
-            audience: "ix.com"
+                email: foundUser.email,
+                roles: ['admin', 'customer'],
+            },
+        }, 'shh', {
+            issuer: 'auth.ix.com',
+            audience: 'ix.com',
         });
         return {
-            token: jwt
+            token: jwt,
         };
     }
 };
 __decorate([
-    rest_1.get("/verify"),
-    __param(0, rest_1.param.query.string("jwt")),
+    rest_1.get('/verify'),
+    __param(0, rest_1.param.query.string('jwt')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], LoginController.prototype, "verifyToken", null);
+__decorate([
+    rest_1.post('/registration'),
+    __param(0, rest_1.requestBody()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_1.User]),
+    __metadata("design:returntype", Promise)
+], LoginController.prototype, "registerUser", null);
 __decorate([
     rest_1.post('/login'),
     __param(0, rest_1.requestBody()),
