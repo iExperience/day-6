@@ -33,7 +33,8 @@
     "start": "node .",
     "prepublishOnly": "npm run test",
 
-    "miki": "DATABASE_HOST=something VARIABLE_SOMETHING=lol npm start"
+    "miki": "export NODE_ENV=miki && export DB_HOST=localhost && export DB_USER=root && export DB_PASSWORD=root && export DB_DATABASE=day_6 && export DB_PORT=3306 && db-migrate up && npm start",
+    "qa": "export NODE_ENV=qa && export DB_HOST=localhost && export DB_USER=root && export DB_PASSWORD=root && export DB_DATABASE=ix_fs_2 && export DB_PORT=3306 && db-migrate up && npm start"
   },
   "repository": {
     "type": "git"

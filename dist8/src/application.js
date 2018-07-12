@@ -31,15 +31,13 @@ class Day_6Application extends boot_1.BootMixin(repository_1.RepositoryMixin(res
         var dataSourceConfig = new repository_1.juggler.DataSource({
             name: "db",
             connector: "loopback-connector-mysql",
-            host: "localhost",
-            port: 3306,
-            user: "root",
-            password: "root",
-            database: "day_6"
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_DATABASE
         });
         this.dataSource(dataSourceConfig);
-        var databaseHost = process.env.DATABASE_HOST;
-        console.log(databaseHost);
     }
     async start() {
         await super.start();
