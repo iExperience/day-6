@@ -38,21 +38,21 @@ export class Day_6Application extends BootMixin(
     };
 
     // Use below for an in-memory database
-    var dataSourceConfig = new juggler.DataSource({
-      name: "db",
-      connector: 'memory'
-    });
-
-    // Use below for MySQL database
     // var dataSourceConfig = new juggler.DataSource({
     //   name: "db",
-    //   connector: "loopback-connector-mysql",
-    //   host: process.env.DB_HOST,
-    //   port: process.env.DB_PORT,
-    //   user: process.env.DB_USER,
-    //   password: process.env.DB_PASSWORD,
-    //   database: process.env.DB_DATABASE
+    //   connector: 'memory'
     // });
+
+    // Use below for MySQL database
+    var dataSourceConfig = new juggler.DataSource({
+      name: "db",
+      connector: "loopback-connector-mysql",
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE
+    });
     this.dataSource(dataSourceConfig);
   }
 

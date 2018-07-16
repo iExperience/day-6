@@ -27,20 +27,20 @@ class Day_6Application extends boot_1.BootMixin(repository_1.RepositoryMixin(res
             },
         };
         // Use below for an in-memory database
-        var dataSourceConfig = new repository_1.juggler.DataSource({
-            name: "db",
-            connector: 'memory'
-        });
-        // Use below for MySQL database
         // var dataSourceConfig = new juggler.DataSource({
         //   name: "db",
-        //   connector: "loopback-connector-mysql",
-        //   host: process.env.DB_HOST,
-        //   port: process.env.DB_PORT,
-        //   user: process.env.DB_USER,
-        //   password: process.env.DB_PASSWORD,
-        //   database: process.env.DB_DATABASE
+        //   connector: 'memory'
         // });
+        // Use below for MySQL database
+        var dataSourceConfig = new repository_1.juggler.DataSource({
+            name: "db",
+            connector: "loopback-connector-mysql",
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_DATABASE
+        });
         this.dataSource(dataSourceConfig);
     }
     async start() {
